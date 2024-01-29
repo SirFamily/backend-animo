@@ -1,7 +1,6 @@
 const createError = require("../utils/createError")
 
-
-//แชร์บ้านและอื่นๆ
-exports.homes = async(req,res,next)=>{
+//สร้างhostแชร์บ้านและ
+exports.createHomes = async(req,res,next)=>{
     res.json({message:"home register"})
 }

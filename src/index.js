@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.use("/auth",authRoute)
 
-app.use("/host",hostRoute)
+app.use("/create",hostRoute)
 
 app.use("*", notFoundHanlder)
 
