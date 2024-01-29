@@ -19,11 +19,11 @@ exports.getHome = async(req,res,next)=>{
 //แก้ไขข้อมูล
 exports.updateHome = (req,res,next) => {
     const {host_id} = req.params
-    res.json({host_id})
+    res.json({message: "update host " +host_id})
 }
 //ลบข้อมูล
 exports.deleteHome = (req, res, next) => {
     const { host_id } = req.params;
-        res.json({ message: "Delete House " + host_id });
+        res.json({ message: "Delete host " + host_id });
    
 }
