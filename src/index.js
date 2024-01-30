@@ -9,7 +9,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
-
+//ยังไม่เสร็จ
 app.use("/auth",authRoute)
 app.use('/p',userRoue)
 app.use("/host",hostRoute)

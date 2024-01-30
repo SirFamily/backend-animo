@@ -30,24 +30,24 @@ model User {
   img_profile    String?
   pets           Pet[]
   host           Host[]
-  bookings        Booking[]
+  bookings       Booking[]
   Review         Review[]
 }
 
 model Pet {
-  pet_id            Int                 @id @default(autoincrement())
-  petName           String
-  petType           String?
-  birthDate         DateTime
-  weight            Float?
-  height            Float?
-  color             String?
-  gender            String?
-  healthStatus      String?
-  chipId            String?
-  img_pet           String?
-  owner             User                @relation(fields: [ownerId], references: [user_id])
-  ownerId           Int
+  pet_id             Int                 @id @default(autoincrement())
+  petName            String
+  petType            String?
+  birthDate          DateTime?
+  weight             Float?
+  height             Float?
+  color              String?
+  gender             String?
+  healthStatus       String?
+  chipId             String?
+  img_pet            String?
+  owner              User                @relation(fields: [ownerId], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+  ownerId            Int
   pets_count_booking pet_count_booking[]
 }
 
@@ -56,40 +56,39 @@ model Host {
   hostName     String
   location     String
   description  String?
-  state        String
-  publish      Boolean
+  publish      Boolean   @default(false)
   propertyType String
-  user         User      @relation(fields: [hostUserId], references: [user_id])
+  user         User      @relation(fields: [hostUserId], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
   hostUserId   Int
   rooms        Room[]
-  Bookings      Booking[]
+  Bookings     Booking[]
 }
 
 model Room {
-  room_id        Int              @id @default(autoincrement())
-  roomName       String
-  description    String?
-  maximumAnimal  Int
-  state          String
-  host           Host             @relation(fields: [hostId], references: [host_id])
-  hostId         Int
-  rooms_img      Room_img[]
+  room_id         Int              @id @default(autoincrement())
+  roomName        String
+  description     String?
+  maximumAnimal   Int
+  state           String
+  host            Host             @relation(fields: [hostId], references: [host_id], onDelete: Cascade, onUpdate: Cascade)
+  hostId          Int
+  rooms_img       Room_img[]
   rooms_amenities Room_amenities[]
-  booking        Booking[]
+  booking         Booking[]
 }
 
 model Room_img {
   room_img_id Int     @id @default(autoincrement())
   image       String?
-  room        Room    @relation(fields: [roomId], references: [room_id])
+  room        Room    @relation(fields: [roomId], references: [room_id], onDelete: Cascade, onUpdate: Cascade)
   roomId      Int
 }
 
 model Room_amenities {
   room_amenities_id Int       @id @default(autoincrement())
-  amenities         Amenities @relation(fields: [amenitiesId], references: [amens_id])
+  amenities         Amenities @relation(fields: [amenitiesId], references: [amens_id], onDelete: Cascade, onUpdate: Cascade)
   amenitiesId       Int
-  room              Room      @relation(fields: [roomId], references: [room_id])
+  room              Room      @relation(fields: [roomId], references: [room_id], onDelete: Cascade, onUpdate: Cascade)
   roomId            Int
 }
 
@@ -101,20 +100,20 @@ model Amenities {
 }
 
 model Booking {
-  booking_id        Int                 @id @default(autoincrement())
-  checkInDate       DateTime
-  checkOutDate      DateTime
-  totalPrice        Float
-  bookingDatetime   DateTime            @default(now())
-  user              User                @relation(fields: [userId], references: [user_id])
-  userId            Int
-  host              Host                @relation(fields: [hostId], references: [host_id])
-  hostId            Int
-  room              Room                @relation(fields: [roomId], references: [room_id])
-  roomId            Int
+  booking_id         Int                 @id @default(autoincrement())
+  checkInDate        DateTime
+  checkOutDate       DateTime
+  totalPrice         Float
+  bookingDatetime    DateTime            @default(now())
+  user               User                @relation(fields: [userId], references: [user_id])
+  userId             Int
+  host               Host                @relation(fields: [hostId], references: [host_id])
+  hostId             Int
+  room               Room                @relation(fields: [roomId], references: [room_id])
+  roomId             Int
   pets_count_booking pet_count_booking[]
-  booking_history  Bookings_history[]
-  status_booking    Status_booking[]
+  booking_history    Bookings_history[]
+  status_booking     Status_booking[]
 }
 
 model pet_count_booking {
