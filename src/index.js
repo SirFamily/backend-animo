@@ -5,6 +5,7 @@ const notFoundHanlder = require("./middlewares/notFound")
 const authRoute = require("./routers/auth-route")
 const hostRoute = require("./routers/createHost-route")
 const userRoue = require("./routers/user-route")
+const errorHandler = require("./middlewares/error")
 const app = express()
 
 app.use(cors())
@@ -15,6 +16,7 @@ app.use('/p',userRoue)
 app.use("/host",hostRoute)
 
 app.use("*", notFoundHanlder)
+app.use(errorHandler)
 
 const port = process.env.PORT
 app.listen(port, () => {
