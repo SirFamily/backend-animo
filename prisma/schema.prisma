@@ -30,7 +30,7 @@ model User {
   img_profile    String?
   pets           Pet[]
   host           Host[]
-  Booking        Booking[]
+  bookings        Booking[]
   Review         Review[]
 }
 
@@ -48,7 +48,7 @@ model Pet {
   img_pet           String?
   owner             User                @relation(fields: [ownerId], references: [user_id])
   ownerId           Int
-  pet_count_booking pet_count_booking[]
+  pets_count_booking pet_count_booking[]
 }
 
 model Host {
@@ -62,7 +62,7 @@ model Host {
   user         User      @relation(fields: [hostUserId], references: [user_id])
   hostUserId   Int
   rooms        Room[]
-  Booking      Booking[]
+  Bookings      Booking[]
 }
 
 model Room {
@@ -74,8 +74,8 @@ model Room {
   host           Host             @relation(fields: [hostId], references: [host_id])
   hostId         Int
   rooms_img      Room_img[]
-  Room_amenities Room_amenities[]
-  Booking        Booking[]
+  rooms_amenities Room_amenities[]
+  booking        Booking[]
 }
 
 model Room_img {
@@ -97,7 +97,7 @@ model Amenities {
   amens_id       Int              @id @default(autoincrement())
   name           String
   imgIcon        String
-  Room_amenities Room_amenities[]
+  room_amenities Room_amenities[]
 }
 
 model Booking {
@@ -112,9 +112,9 @@ model Booking {
   hostId            Int
   room              Room                @relation(fields: [roomId], references: [room_id])
   roomId            Int
-  pet_count_booking pet_count_booking[]
-  Bookings_history  Bookings_history[]
-  Status_booking    Status_booking[]
+  pets_count_booking pet_count_booking[]
+  booking_history  Bookings_history[]
+  status_booking    Status_booking[]
 }
 
 model pet_count_booking {
@@ -134,8 +134,8 @@ model Bookings_history {
   checkOutDatetime DateTime?
   booking          Booking          @relation(fields: [bookingId], references: [booking_id])
   bookingId        Int
-  Status_booking   Status_booking[]
-  Review           Review[]
+  status_booking   Status_booking[]
+  review           Review[]
 }
 
 model Status_booking {
