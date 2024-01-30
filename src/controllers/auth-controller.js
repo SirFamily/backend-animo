@@ -47,7 +47,7 @@ exports.register = async (req, res, next) => {
             skipDuplicates: true
         })
         console.log('Request Body:', req.body);
-        res.status(201).json({ user: newUser })
+        res.status(201).json({ message:"register success", user: newUser })
     } catch (err) {
         next(err)
     }
@@ -72,8 +72,8 @@ exports.login = async (req, res, next) => {
         }
 
         const token = jwt.sign({ id: userExist.id }, process.env.SECRET_KEY, { expiresIn: process.env.EXPIRES_IN })
-        console.log(token)
-        res.status(200).json({ token:token });
+        // console.log(token)
+        res.status(200).json({ message:"login success", token:token });
     } catch (err) {
         next(err);
     };
