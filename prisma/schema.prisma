@@ -6,6 +6,119 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  Male
+  Female
+}
+
+enum StatusBooking {
+  CONFIRMED
+  PENDING
+  CANCELLED
+}
+
+model User {
+  user_id        Int     @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email          String  @unique
+  password       String
+  phone          String?
+  identityNumber Int?
+  address        String?
+  city           String?
+  district       String?
+  img_profile    String?
+}
+
+model Pet {
+  pet_id       Int      @id @default(autoincrement())
+  petName      String
+  petType      String?
+  birthDate    DateTime
+  weight       Float?
+  height       Float?
+  color        String?
+  gender       Gender
+  healthStatus String?
+  chipId       String?
+  img_pet      String?
+}
+
+model Host {
+  host_id      Int     @id @default(autoincrement())
+  hostName     String
+  location     String
+  description  String?
+  state        String
+  publish      Boolean
+  propertyType String
+}
+
+model Room {
+  room_id       Int     @id @default(autoincrement())
+  roomName      String
+  description   String?
+  maximumAnimal Int
+  state         String
+}
+
+model Room_img {
+  room_img_id Int     @id @default(autoincrement())
+  image       String?
+}
+
+model Room_amenities {
+  room_amenities Int @id @default(autoincrement())
+}
+
+model Amenities {
+  amenities Int    @id @default(autoincrement())
+  name      String
+  imgIcon   String
+}
+
+model Booking {
+  booking_id      Int      @id @default(autoincrement())
+  // user           User    @relation(fields[user_id], references[user_id])
+  // animal         Animal  @relation(fields[animal_id], references[animals_id])
+  // room           Room    @relation(fields[room_id], references[room_id])
+  // host           Host    @relation(fields[host_id], references[host_id])
+  // user_id        Int
+  // animals_id     Int
+  // room_id        Int
+  // host_id        Int
+  checkInDate     DateTime
+  checkOutDate    DateTime
+  totalPrice      Float
+  bookingDatetime DateTime @default(now())
+}
+
+model pet_count_booking {
+  pet_bookings_id Int @id @default(autoincrement())
+}
+
+model Bookings_history {
+  history_id       Int       @id @default(autoincrement())
+  checkInDate      DateTime
+  checkOutDate     DateTime
+  totalPrice       Float
+  bookingDatetime  DateTime  @default(now())
+  checkOutDatetime DateTime?
+}
+
+model bookingStatus {
+  Status_booking_id Int           @id @default(autoincrement())
+  bookingStatus     StatusBooking @default(PENDING)
+}
+
+model Review {
+  revier_id  Int      @id @default(autoincrement())
+  rating     String
+  reviewText String?
+  datePosted DateTime @default(now())
 }
