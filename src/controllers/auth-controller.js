@@ -1,6 +1,7 @@
 const prisma = require("../config/pirsma")
 const createError = require("../utils/createError")
 const bcrypt = require('bcrypt')
+const jwt = require("jsonwebtoken")
 exports.register = async (req, res, next) => {
     try {
         const { firstName,
@@ -55,7 +56,27 @@ exports.register = async (req, res, next) => {
 
 
 exports.login = async (req, res, next) => {
-    res.json({ message: "login" })
+    try {
+        const { email, password } = req.body;
+
+        const userExist = await prisma.user.findFirst({ where: { email } });
+
+        if (!userExist) {
+            throw createError(401, "Authentication failed! Wrong email or password")
+        }
+
+        const isMatch = await bcrypt.compare(password, userExist.password);
+
+        if (!isMatch) {
+            throw createError(401, "Invalid Password")
+        }
+
+        const token = jwt.sign({ id: userExist.id }, process.env.SECRET_KEY, { expiresIn: process.env.EXPIRES_IN })
+        console.log(token)
+        res.status(200).json({ token:token });
+    } catch (err) {
+        next(err);
+    };
 }
 
 exports.forgetPassword = (req, res, next) => {
