@@ -47,7 +47,7 @@ exports.register = async (req, res, next) => {
             skipDuplicates: true
         })
         console.log('Request Body:', req.body);
-        res.status(201).json({ message:"register success", user: newUser })
+        res.status(201).json({ message:"register success", user: req.body })
     } catch (err) {
         next(err)
     }
