@@ -2,20 +2,11 @@ const prisma = require("../config/pirsma")
 const createError = require("../utils/createError")
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
+const cloudUpload = require("../utils/cloudUpload")
+
 exports.register = async (req, res, next) => {
     try {
-        const { firstName,
-            lastName,
-            email,
-            password1,
-            password2,
-            phone,
-            identityNumber,
-            address,
-            city,
-            district,
-            img_profile
-        } = req.body;
+        const { firstName, lastName, email, password1, password2, phone, identityNumber, address, city, district, img_profile } = req.body;
         if (!firstName || !lastName || !email || !password1 || !password2) {
             throw createError(400, "Missing parameters");
         }
@@ -29,10 +20,12 @@ exports.register = async (req, res, next) => {
         if (userExist) {
             throw createError(409, 'Email already in use');
         }
-        //hash the password 
+        
         const hashedPassword = await bcrypt.hash(password1, 10);
-        const newUser = await prisma.user.createMany({
-            data: [{
+        const url = await cloudUpload(req.file.path);
+        
+        const newUser = await prisma.user.create({
+            data: {
                 firstName,
                 lastName,
                 email,
@@ -42,18 +35,15 @@ exports.register = async (req, res, next) => {
                 address,
                 city,
                 district,
-                img_profile
-            }],
-            skipDuplicates: true
-        })
-        console.log('Request Body:', req.body);
-        res.status(201).json({ message:"register success", user: req.body })
+                img_profile: url
+            }
+        });
+
+        res.status(201).json({ message: "register success", user: req.body });
     } catch (err) {
-        next(err)
+        next(err); // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
     }
 }
-
-
 
 exports.login = async (req, res, next) => {
     try {
@@ -72,11 +62,10 @@ exports.login = async (req, res, next) => {
         }
 
         const token = jwt.sign({ id: userExist.id }, process.env.SECRET_KEY, { expiresIn: process.env.EXPIRES_IN })
-        // console.log(token)
-        res.status(200).json({ message:"login success", token:token });
+        res.status(200).json({ message: "login success", token: token });
     } catch (err) {
         next(err);
-    };
+    }
 }
 
 exports.forgetPassword = (req, res, next) => {
@@ -86,7 +75,6 @@ exports.forgetPassword = (req, res, next) => {
 exports.verifyForgetPassword = (req, res, next) => {
     const { token } = req.params
     res.json({ token })
-
 }
 
 exports.resetPassword = (req, res, next) => {
