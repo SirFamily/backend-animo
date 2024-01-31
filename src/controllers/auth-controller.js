@@ -80,8 +80,7 @@ exports.login = async (req, res, next) => {
 }
 
 exports.forgetPassword = (req, res, next) => {
-    const { email } = req.body
-    res.json({ message: "forget password" })
+    res.json({ message: req.user })
 }
 
 exports.verifyForgetPassword = (req, res, next) => {
