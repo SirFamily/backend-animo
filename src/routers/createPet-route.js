@@ -6,6 +6,6 @@ const router = express.Router()
 const upload = require("../middlewares/upload")
 
 router.post("/pet",authenticate,upload.single("avatar"),createpetController.addPet)
-// router.put("/pet/update",authenticate,upload.single("avatar"),createpetController.)
+router.put("/pet/:id/update",authenticate,upload.single("avatar"),createpetController.putPet)
 
 module.exports = router

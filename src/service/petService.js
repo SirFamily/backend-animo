@@ -1,11 +1,9 @@
 const prisma = require("../config/pirsma");
 
-exports.getPetByID = (id) => {
-    return prisma.pet.findUnique({
-        where: {
-            id: id
-        }
-    })
+exports.getPetById = (petid) => {
+    return prisma.pet.findMany({
+        where: petid,
+    });
 }
 
 exports.addPet = async (petData) => {
@@ -14,3 +12,19 @@ exports.addPet = async (petData) => {
     });
 };
 
+exports.putPetByIdAndPetId = ({ where, data }) => {
+    return prisma.pet.update({
+        where: {
+            id: where.id,
+        },
+        data: data,
+    });
+}
+
+// exports.deletePet = ()=>{
+//     return prisma.pet.delete({
+//         where:{
+//             id:"1"
+//         }
+//     })
+// }
