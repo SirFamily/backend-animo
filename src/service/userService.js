@@ -42,3 +42,12 @@ exports.createUser = (userId, firstName, lastName, email, hashedPassword, phone,
         
     })
 }
+
+
+
+exports.putUserByToken = ({ where, data }) => {
+    return prisma.user.update({
+        where: { id: where.id }, // Corrected line
+        data: data,
+    });
+}

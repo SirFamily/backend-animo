@@ -1,4 +1,4 @@
-// const prisma = require("../config/pirsma")
+const prisma = require("../config/pirsma")
 const createError = require("../utils/createError")
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
