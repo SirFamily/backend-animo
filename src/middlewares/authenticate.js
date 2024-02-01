@@ -16,7 +16,8 @@ const authenticate = async(req,res,next)=>{
     }
     console.log(arrayToken)
     const payload = jwt.verify(token, process.env.SECRET_KEY)
-    if(typeof payload !== "object" || !payload?.id ||typeof payload.id !== "number"){
+    console.log(payload)
+    if(typeof payload !== "object" || !payload?.id ||typeof payload.id !== "string"){
         return createError(400,"payload is invalid")
     }
     const user = await prisma.user.findUnique({

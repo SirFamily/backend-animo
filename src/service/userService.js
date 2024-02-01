@@ -39,5 +39,6 @@ exports.createUser = (userId, firstName, lastName, email, hashedPassword, phone,
             district,
             img_profile: url
         }
+        
     })
 }

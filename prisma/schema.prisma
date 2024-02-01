@@ -46,10 +46,9 @@ model Pet {
   color              String?
   gender             String?
   healthStatus       String?
-  chipId             String?
   img_pet            String?
-  owner              User                @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ownerId            String
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId            String
   pets_count_booking pet_count_booking[]
 }
 
