@@ -1,12 +1,15 @@
 const express = require("express")
-const hostController = require("../controllers/createHost-controller")
+const hostController = require("../controllers/host-controller")
 const authenticate = require("../middlewares/authenticate")
 const router = express.Router()
 
-router.post("/create",authenticate,hostController.createHome)
-router.get("/",hostController.getAllHome)
-router.get("/:host_id",hostController.getHome)
-router.put("/:host_id/update",hostController.updateHome)
-router.delete("/:host_id/delete",hostController.deleteHome)
+router.post("/create",authenticate,hostController.createHost)
+router.get("/",hostController.getAllHost)
+router.get("/host",authenticate,hostController.getHostUser)
+router.put("/host/update",authenticate,hostController.putHost)
+router.delete("/:hostId/delete",authenticate,hostController.delHost)
 
 module.exports = router;
+
+
+///ต้องแก้

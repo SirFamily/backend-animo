@@ -5,7 +5,8 @@ const notFoundHanlder = require("./middlewares/notFound")
 const authRoute = require("./routers/auth-route")
 const hostRoute = require("./routers/host-route")
 const userRoute = require("./routers/user-route")
-const petRoute = require("./routers/createPet-route")
+const petRoute = require("./routers/Pet-route")
+const roomRoute = require("./routers/room-route")
 const errorHandler = require("./middlewares/error")
 const app = express()
 
@@ -15,7 +16,8 @@ app.use(express.json())
 app.use("/auth",authRoute)
 app.use('/p',userRoute)
 app.use('/p/user/pet',petRoute)
-app.use("/host",hostRoute)
+app.use('/p/user/room',roomRoute) //สร้างห้อง
+app.use("/host",hostRoute) //สร้าง host
 
 app.use("*", notFoundHanlder)
 app.use(errorHandler)

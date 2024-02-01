@@ -17,19 +17,19 @@ enum StatusBooking {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id             String    @id @default(cuid())
   firstName      String
   lastName       String
   email          String    @unique
   password       String
   phone          String?
-  identityNumber String?      @unique
+  identityNumber String?   @unique
   address        String?
   zipcode        String?
   city           String?
   district       String?
   img_profile    String?
-  createDate DateTime  @default(now())
+  createDate     DateTime  @default(now())
   pets           Pet[]
   host           Host[]
   bookings       Booking[]
@@ -37,7 +37,7 @@ model User {
 }
 
 model Pet {
-  id             Int                 @id @default(autoincrement())
+  id                 Int                 @id @default(autoincrement())
   petName            String
   petType            String?
   birthDate          DateTime?
@@ -47,26 +47,26 @@ model Pet {
   gender             String?
   healthStatus       String?
   img_pet            String?
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId            String
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId             String
   pets_count_booking pet_count_booking[]
 }
 
 model Host {
-  id      Int       @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   hostName     String
   location     String
   description  String?
   publish      Boolean   @default(false)
   propertyType String
-  user         User      @relation(fields: [hostUserId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  hostUserId   String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId       String
   rooms        Room[]
   Bookings     Booking[]
 }
 
 model Room {
-  id         Int              @id @default(autoincrement())
+  id              Int              @id @default(autoincrement())
   roomName        String
   description     String?
   maximumAnimal   Int
@@ -79,29 +79,29 @@ model Room {
 }
 
 model Room_img {
-  id Int     @id @default(autoincrement())
-  image       String?
-  room        Room    @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  roomId      Int
+  id     Int     @id @default(autoincrement())
+  image  String?
+  room   Room    @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roomId Int
 }
 
 model Room_amenities {
-  id Int       @id @default(autoincrement())
-  amenities         Amenities @relation(fields: [amenitiesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  amenitiesId       Int
-  room              Room      @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  roomId            Int
+  id          Int       @id @default(autoincrement())
+  amenities   Amenities @relation(fields: [amenitiesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  amenitiesId Int
+  room        Room      @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roomId      Int
 }
 
 model Amenities {
-  id       Int              @id @default(autoincrement())
+  id             Int              @id @default(autoincrement())
   name           String
   imgIcon        String
   room_amenities Room_amenities[]
 }
 
 model Booking {
-  id         Int                 @id @default(autoincrement())
+  id                 Int                 @id @default(autoincrement())
   checkInDate        DateTime
   checkOutDate       DateTime
   totalPrice         Float
@@ -126,7 +126,7 @@ model pet_count_booking {
 }
 
 model Bookings_history {
-  id       Int              @id @default(autoincrement())
+  id               Int              @id @default(autoincrement())
   checkInDate      DateTime
   checkOutDate     DateTime
   totalPrice       Float
@@ -139,7 +139,7 @@ model Bookings_history {
 }
 
 model Status_booking {
-  status_id  Int              @id @default(autoincrement())
+  status_id          Int              @id @default(autoincrement())
   bookingStatus      StatusBooking    @default(PENDING)
   booking            Booking          @relation(fields: [bookingId], references: [id])
   bookingId          Int
@@ -148,7 +148,7 @@ model Status_booking {
 }
 
 model Review {
-  id         Int              @id @default(autoincrement())
+  id                Int              @id @default(autoincrement())
   rating            String
   reviewText        String?
   datePosted        DateTime         @default(now())
