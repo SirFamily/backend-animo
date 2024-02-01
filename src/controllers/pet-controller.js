@@ -110,3 +110,21 @@ exports.putPet = async (req, res, next) => {
         next(err);
     }
 }
+
+exports.delPet = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        userId = req.user.id
+        const petId = parseInt(id);
+        const isOwnerPet = await petService.getPetById({
+            id: petId,
+            userId: userId
+        });
+
+        console.log(isOwnerPet)
+         await petService.deletePet(petId)
+        res.status(200).json({message:"pet delete",pet:isOwnerPet});
+    } catch (err) {
+        next(err);
+    }
+}
