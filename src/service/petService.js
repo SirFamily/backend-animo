@@ -21,7 +21,7 @@ exports.putPetByIdAndPetId = ({ where, data }) => {
     });
 }
 
-// exports.deletePet = ()=>{
+// exports.delPet = ()=>{
 //     return prisma.pet.delete({
 //         where:{
 //             id:"1"

@@ -67,7 +67,7 @@ exports.putPet = async (req, res, next) => {
 
         const userId = req.user.id;
         const petId = parseInt(id);
-        if(!id||userId){
+        if(!id||!userId){
             throw createError(400,"ID is missing")
         }
         const pet = await petService.getPetById({
@@ -75,6 +75,8 @@ exports.putPet = async (req, res, next) => {
             userId: userId
 
         });
+
+    
 
         console.log(pet)
         if (!pet) return res.status(404).send('The pet does not exist');
