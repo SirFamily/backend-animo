@@ -80,7 +80,10 @@ exports.putPet = async (req, res, next) => {
 
         console.log(pet)
         if (!pet) return res.status(404).send('The pet does not exist');
-        const url = await cloudUpload(req.file.path);
+        let url = req.user.img_profile;
+        if (req.file) {
+            url = await cloudUpload(req.file.path);
+        }
 
         const weightFloat = parseFloat(weight)
         if (!isFinite(weightFloat)) throw createError.badRequest('Weight must be a number')

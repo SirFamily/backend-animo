@@ -30,7 +30,10 @@ exports.register = async (req, res, next) => {
         }
 
         const hashedPassword = await bcrypt.hash(password1, 10);
-        const url = await cloudUpload(req.file.path);
+        let url = '';
+        if (req.file) {
+            url = await cloudUpload(req.file.path);
+        }
         const userId = uuidv4().replace(/-/g, '');
 
         const existingUserWithId = await userService.getUserByID(userId)
