@@ -10,6 +10,16 @@ const roomRoute = require("./routers/room-route")
 const errorHandler = require("./middlewares/error")
 const app = express()
 
+const cre = `░█▀▀░█▀▄░█▀▀░█▀█░▀█▀░█▀▀░█▀▄░░░█▀▄░█░█
+░█░░░█▀▄░█▀▀░█▀█░░█░░█▀▀░█░█░░░█▀▄░░█░
+░▀▀▀░▀░▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀░░░░▀▀░░░▀░`
+const str = `░█▀▀░▀█▀░█▀▄░█▀▀░█▀█░█▄█░▀█▀░█░░░█░█
+░▀▀█░░█░░█▀▄░█▀▀░█▀█░█░█░░█░░█░░░░█░
+░▀▀▀░▀▀▀░▀░▀░▀░░░▀░▀░▀░▀░▀▀▀░▀▀▀░░▀░`
+const line =`░▀▄░░▀▄░░▀▄░░▀▄░░▀▄░░░▄▀░░▄▀░░▄▀░░▄▀░░▄▀
+░░▄▀░░▄▀░░▄▀░░▄▀░░▄▀░▀▄░░▀▄░░▀▄░░▀▄░░▀▄░
+░▀░░░▀░░░▀░░░▀░░░▀░░░░░▀░░░▀░░░▀░░░▀░░░▀`
+
 app.use(cors())
 app.use(express.json())
 //ยังไม่เสร็จ
@@ -24,5 +34,11 @@ app.use(errorHandler)
 
 const port = process.env.PORT
 app.listen(port, () => {
-    console.log("server run on" + " " + port)
+    console.log(line)
+    console.log(cre)
+    console.log(str)
+    console.log(line)
+    console.log("----------------------------------------")
+    console.log("  Server Run On" + " http://localhost:" + port)
+    console.log("----------------------------------------")
 })
