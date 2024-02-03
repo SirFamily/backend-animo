@@ -26,7 +26,7 @@ app.use(express.json())
 app.use("/auth",authRoute)
 app.use('/p',userRoute)
 app.use('/p/user/pet',petRoute)
-app.use('/p/user/room',roomRoute) //สร้างห้อง
+app.use('/p/user/host/room',roomRoute) //สร้างห้อง
 app.use("/host",hostRoute) //สร้าง host
 
 app.use("*", notFoundHanlder)

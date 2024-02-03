@@ -1,15 +1,83 @@
 const createError = require("../utils/createError")
 const roomService = require("../service/roomService")
+const prisma = require("../config/pirsma")
+const cloudUpload = require("../utils/cloudUpload")
 
+
+
+
+exports.addRoom = async (req, res, next) => {
+    try {
+        const { roomName,
+            description,
+            maximumAnimal,
+            state,
+        } = req.body
+        const maximumAnimalNum = Number(maximumAnimal)
+
+        if (!roomName || !description
+            || typeof maximumAnimalNum !== 'number'
+            || !state) throw createError(400, "Missing parameters or wrong type.")
+
+        const { hostId } = req.params
+
+        if (!hostId) {
+            throw createError(400, 'Host ID is missing')
+        }
+        const imagexPromiseArray = req.files.map((file)=>{
+            return cloudUpload(file.path)
+        })
+
+        const imgUrlArray = await Promise.all(imagexPromiseArray)
+        
+        const roomExits = await roomService.addRoom({
+            roomName,
+            description,
+            maximumAnimal: maximumAnimalNum,
+            state,
+            hostId: Number(hostId)
+        })
+        
+        const roomId = Number(roomExits.id)
+
+        const images = imgUrlArray.map((imgUrl)=>{
+            return {
+                image: imgUrl,
+                roomId,
+            }
+        })
+     await roomService.uploadImgRoom({images})
+
+
+        
+        res.json({ roomExits })
+    } catch (err) {
+        next(err)
+    }
+}
 
 
 exports.gerRoomAllByToken = async (req, res, next) => {
     try {
         userId = req.user.id
-        const getHost = await roomService.getHostById({userId})
+        const getHost = await roomService.getRoomAllByToken({ userId })
         console.log(getHost)
-        res.json({message:userId});
-    } catch (error) {
-        next(error);
+        res.json(getHost);
+    } catch (err) {
+        next(err);
     }
 };
+
+
+exports.getRoomByHostForUser = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const userId=req.user.id
+        console.log(userId)
+       const room = await roomService.getRoomByHost(Number(id))
+        res.json({user:userId, room:room})
+
+    } catch (err) {
+        next(err)
+    }
+}
