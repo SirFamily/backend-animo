@@ -24,12 +24,12 @@ exports.addRoom = async (req, res, next) => {
         if (!hostId) {
             throw createError(400, 'Host ID is missing')
         }
-        const imagexPromiseArray = req.files.map((file)=>{
+        const imagexPromiseArray = req.files.map((file) => {
             return cloudUpload(file.path)
         })
 
         const imgUrlArray = await Promise.all(imagexPromiseArray)
-        
+
         const roomExits = await roomService.addRoom({
             roomName,
             description,
@@ -37,19 +37,19 @@ exports.addRoom = async (req, res, next) => {
             state,
             hostId: Number(hostId)
         })
-        
+
         const roomId = Number(roomExits.id)
 
-        const images = imgUrlArray.map((imgUrl)=>{
+        const images = imgUrlArray.map((imgUrl) => {
             return {
                 image: imgUrl,
                 roomId,
             }
         })
-     await roomService.uploadImgRoom({images})
+        await roomService.uploadImgRoom({ images })
 
 
-        
+
         res.json({ roomExits })
     } catch (err) {
         next(err)
@@ -62,7 +62,7 @@ exports.gerRoomAllByToken = async (req, res, next) => {
         userId = req.user.id
         const getHost = await roomService.getRoomAllByToken({ userId })
         console.log(getHost)
-        res.json(getHost);
+        res.json({ getHost });
     } catch (err) {
         next(err);
     }
@@ -72,10 +72,35 @@ exports.gerRoomAllByToken = async (req, res, next) => {
 exports.getRoomByHostForUser = async (req, res, next) => {
     try {
         const { id } = req.params
-        const userId=req.user.id
+        const userId = req.user.id
         console.log(userId)
-       const room = await roomService.getRoomByHost(Number(id))
-        res.json({user:userId, room:room})
+        const room = await roomService.getRoomByHost(Number(id))
+        res.json({ user: userId, room: room })
+
+    } catch (err) {
+        next(err)
+    }
+}
+
+exports.delRoomByHost = async (req, res, next) => {
+    try {
+        const { roomId } = req.params
+        const { hostId } = req.params
+        const userId = req.user.id
+        const userHost = await roomService.getHostByIdUser(userId)
+        const getHost = await roomService.findRoomForDel( roomId )
+
+        if(userHost.id !==Number(hostId)){
+            throw createError(400,"err")
+        }
+        
+        
+        
+        console.log({hostIdFormdata:userHost})
+        console.log({hostIdFormparams:getHost})
+        await roomService.delRoom(roomId,hostId)
+        res.json({ getHost })
+
 
     } catch (err) {
         next(err)

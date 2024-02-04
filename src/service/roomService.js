@@ -16,6 +16,31 @@ exports.getRoomAllByToken = (id) => {
     });
 };
 
+exports.findRoomForDel = (roomId,hostId)=>{
+    return prisma.room.findFirst({
+        where:{
+            id:Number(roomId),
+        }
+    })
+}
+
+exports.getHostByIdUser = (userId) => {
+    return prisma.host.findFirst({
+        where:{
+            userId:userId,
+        }
+    })
+}
+
+exports.delRoom = (roomId,hostId) =>{
+    return prisma.room.delete({
+        where:{
+            id:Number(roomId),
+            hostId:Number(hostId)
+        }
+    })
+}
+
 exports.addRoom = (data)=>{
     return  prisma.room.create({
         data:data,
