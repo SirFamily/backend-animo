@@ -7,6 +7,7 @@ const hostRoute = require("./routers/host-route")
 const userRoute = require("./routers/user-route")
 const petRoute = require("./routers/Pet-route")
 const roomRoute = require("./routers/room-route")
+const bookRoute = require("./routers/booking-route")
 const errorHandler = require("./middlewares/error")
 const app = express()
 
@@ -28,6 +29,7 @@ app.use('/p',userRoute)
 app.use('/p/user/pet',petRoute)
 app.use('/p/user/host/room',roomRoute) //สร้างห้อง
 app.use("/host",hostRoute) //สร้าง host
+app.use("/booking",bookRoute)
 
 app.use("*", notFoundHanlder)
 app.use(errorHandler)
