@@ -46,7 +46,7 @@ model Pet {
   color              String?
   gender             String?
   healthStatus       String?
-  img_pet            String?
+  urlImgPet          String?
   user               User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId             String
   pets_count_booking pet_count_booking[]
@@ -63,6 +63,7 @@ model Host {
   userId       String
   rooms        Room[]
   Bookings     Booking[]
+  Review       Review[]
 }
 
 model Room {
@@ -70,7 +71,8 @@ model Room {
   roomName        String
   description     String?
   maximumAnimal   Int
-  state           String
+  pricePerNight   Float
+  typeRoom        String
   host            Host             @relation(fields: [hostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   hostId          Int
   rooms_img       Room_img[]
@@ -80,7 +82,7 @@ model Room {
 
 model Room_img {
   id     Int     @id @default(autoincrement())
-  image  String?
+  urlImg String?
   room   Room    @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomId Int
 }
@@ -135,7 +137,6 @@ model Bookings_history {
   booking          Booking          @relation(fields: [bookingId], references: [id])
   bookingId        Int
   status_booking   Status_booking[]
-  review           Review[]
 }
 
 model Status_booking {
@@ -148,12 +149,12 @@ model Status_booking {
 }
 
 model Review {
-  id                Int              @id @default(autoincrement())
-  rating            String
-  reviewText        String?
-  datePosted        DateTime         @default(now())
-  user              User             @relation(fields: [userId], references: [id])
-  userId            String
-  bookings_history  Bookings_history @relation(fields: [bookingsHistoryId], references: [id])
-  bookingsHistoryId Int
+  id             Int      @id @default(autoincrement())
+  rating         Float
+  comment        String?
+  reviewDatetime DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  host           Host     @relation(fields: [hostId], references: [id])
+  hostId         Int
 }
