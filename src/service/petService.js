@@ -1,10 +1,11 @@
 const prisma = require("../config/pirsma");
 
-exports.getPetById = (petid) => {
+exports.getPetById = (userId) => {
     return prisma.pet.findMany({
-        where: petid,
+        where: userId,
     });
-}
+};
+
 
 exports.addPet = async (petData) => {
     return prisma.pet.create({

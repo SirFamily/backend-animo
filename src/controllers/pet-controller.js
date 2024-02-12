@@ -48,6 +48,18 @@ exports.addPet = async (req, res, next) => {
     }
 };
 
+exports.viewPet = async(req,res,next) =>{
+    try{
+        const { userId } = req.params;
+
+        const data= await petService.getPetById({userId})
+        console.log(data)
+        res.json(data);
+    }catch(err){
+        next(err)
+    }
+}
+
 
 exports.putPet = async (req, res, next) => {
     try {
