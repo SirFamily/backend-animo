@@ -8,13 +8,9 @@ const { v4: uuidv4 } = require("uuid")
 
 exports.register = async (req, res, next) => {
     try {
-        const { firstName, lastName, email, password1, password2, phone, identityNumber, address, zipcode, city, district } = req.body;
-        if (!firstName || !lastName || !email || !password1 || !password2) {
+        const { firstName, lastName, email, password, phone, identityNumber, address, zipcode, city, district } = req.body;
+        if (!firstName || !lastName || !email || !password) {
             throw createError(400, "Missing parameters");
-        }
-
-        if (password1 !== password2) {
-            throw createError(400, 'Passwords do not match');
         }
 
         const userExist = await userService.getUserByEmail(email)
@@ -23,13 +19,13 @@ exports.register = async (req, res, next) => {
             throw createError(409, 'Email already in use');
         }
 
-        const   identityNumberExist = await userService.getuserByIdentity(identityNumber)
+        const identityNumberExist = await userService.getuserByIdentity(identityNumber)
 
         if (identityNumberExist) {
             throw createError(409, 'identityNumber already in use');
         }
 
-        const hashedPassword = await bcrypt.hash(password1, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         let url = '';
         if (req.file) {
             url = await cloudUpload(req.file.path);
@@ -42,10 +38,9 @@ exports.register = async (req, res, next) => {
         }
 
         await userService.createUser(userId, firstName, lastName, email, hashedPassword, phone, identityNumber, address, zipcode, city, district, url)
-
         res.status(201).json({ message: "register success", user: req.body });
     } catch (err) {
-        next(err); // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
+        next(err);
     }
 }
 
@@ -70,6 +65,10 @@ exports.login = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+}
+
+exports.me = async (req, res, next) => {
+    res.json(req.user)
 }
 
 exports.forgetPassword = (req, res, next) => {

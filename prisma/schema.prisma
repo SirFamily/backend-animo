@@ -27,7 +27,6 @@ model User {
   address        String?
   zipcode        String?
   city           String?
-  district       String?
   img_profile    String?
   createDate     DateTime  @default(now())
   pets           Pet[]
@@ -39,8 +38,8 @@ model User {
 model Pet {
   id                 Int                 @id @default(autoincrement())
   petName            String
-  petType            String?
-  birthDate          DateTime?
+  petType            String?  
+  birthDate          DateTime?          
   weight             Float?
   height             Float?
   color              String?

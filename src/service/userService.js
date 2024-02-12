@@ -1,4 +1,4 @@
-const prisma = require("../config/pirsma");
+    const prisma = require("../config/pirsma");
 
 exports.getUserByID = (id) => {
     return prisma.user.findUnique({
