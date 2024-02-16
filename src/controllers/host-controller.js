@@ -1,13 +1,14 @@
 const createError = require("../utils/createError")
 const hostService = require("../service/hostService")
 
+
 //สร้างhostแชร์บ้านและ
 exports.createHost = async (req, res, next) => {
     try {
         const { hostName, location, description, propertyType } = req.body
-
+        console.log(hostName)
         if (!hostName || !location || !propertyType) {
-            throw createError(400, 'Missing required fields')
+            throw createError(400, 'Missing required fieldsหหหหหหหหห')
         }
 
         userId = req.user.id
@@ -21,7 +22,7 @@ exports.createHost = async (req, res, next) => {
             }
         )
 
-        res.json(req.body)
+        res.status(200).json(req.body)
     } catch (err) {
         next(err)
     }
@@ -34,10 +35,28 @@ exports.getAllHost = async (req, res, next) => {
 }
 
 exports.getHostUser = async (req, res, next) => {
-    const userId = req.user.id
-    const userHost = await hostService.getHostByIdUser(userId)
-    res.json(userHost)
-}
+    try {
+        const { userId } = req.params;
+        const userIdFromRequest = req.user.id;
+
+        if (userIdFromRequest !== userId) {
+            throw createError(400, 'Invalid user ID');
+        }
+
+        const data = await hostService.getHostByIdUser(userIdFromRequest);
+
+        if (!data) {
+            // หากไม่พบข้อมูล ส่ง [] (array ว่าง) หรือส่งข้อมูลที่เหมาะสมตามที่คุณต้องการ
+            res.json([]);
+            return;
+        }
+
+        console.log(data);
+        res.json([data]);
+    } catch (err) {
+        next(err);
+    }
+};
 //แก้ไขข้อมูล
 exports.putHost = async (req, res, next) => {
     try {
@@ -70,7 +89,7 @@ exports.delHost = async (req, res, next) => {
             });
         }
 
-         await hostService.delHost(isHostUser.id)
+        await hostService.delHost(isHostUser.id)
         res.json({ message: "ลบสำเร็จ" });
 
     } catch (err) {

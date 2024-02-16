@@ -12,18 +12,18 @@ exports.addHost = (hostData) => {
 
 exports.getHostByIdUser = (userId) => {
     return prisma.host.findFirst({
-        where:{
-            userId:userId,
+        where: {
+            userId: userId,
         }
     })
 }
 
-exports.updateHost = (id ,data)=>{
+exports.updateHost = (id, data) => {
     return prisma.host.update({
-        where :{
-            id:id
+        where: {
+            id: id
         },
-        data:data
+        data: data
     })
 }
 
