@@ -53,12 +53,12 @@ exports.addRoom = async (req, res, next) => {
                 urlImg: imgUrl,
             }
         })
-        await roomService.uploadImgRoom({ images, roomId });
+       const data = await roomService.uploadImgRoom({ images, roomId });
 
 
 
 
-        res.json({ images })
+        res.json({ data })
     } catch (err) {
         next(err)
     }
@@ -70,7 +70,7 @@ exports.gerRoomAllByToken = async (req, res, next) => {
         userId = req.user.id
         const getHost = await roomService.getRoomAllByToken({ userId })
         console.log(getHost)
-        res.json({ getHost });
+        res.json(getHost);
     } catch (err) {
         next(err);
     }

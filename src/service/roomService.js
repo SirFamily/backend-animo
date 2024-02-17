@@ -12,9 +12,13 @@ exports.getRoomAllByToken = (id) => {
     return prisma.room.findMany({
         where: {
             host: id
+        },
+        include: {
+            rooms_img: true
         }
     });
 };
+
 
 exports.findRoomForDel = (roomId,hostId)=>{
     return prisma.room.findFirst({
