@@ -1,8 +1,13 @@
 const prisma = require("../config/pirsma");
 
 
-exports.gerHostAll = () => {
-    return prisma.host.findMany()
+exports.gerHostAll = (userId) => {
+    return prisma.host.findMany({
+        where: {
+            userId: { not: userId } 
+        },
+        
+    });
 }
 exports.addHost = (hostData) => {
     return prisma.host.create({

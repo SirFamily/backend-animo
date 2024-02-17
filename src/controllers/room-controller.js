@@ -73,7 +73,7 @@ exports.gerRoomAllByToken = async (req, res, next) => {
 };
 
 
-exports.getRoomByHostForUser = async (req, res, next) => {
+exports.getRoomByHost = async (req, res, next) => {
     try {
         const { id } = req.params
         const userId = req.user.id
@@ -146,3 +146,13 @@ exports.editRoom = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.getRoomByHostForUser = async (req, res, next) => {
+    try {
+        const { hostId } = req.params;
+        const room = await roomService.getRoomByHostForUser(Number(hostId));
+        res.status(200).json(room);
+    } catch (err) {
+        next(err);
+    }
+}

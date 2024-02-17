@@ -8,7 +8,7 @@ exports.createHost = async (req, res, next) => {
         const { hostName, location, description, propertyType } = req.body
         console.log(hostName)
         if (!hostName || !location || !propertyType) {
-            throw createError(400, 'Missing required fieldsหหหหหหหหห')
+            throw createError(400, 'Missing required fields')
         }
 
         userId = req.user.id
@@ -30,8 +30,10 @@ exports.createHost = async (req, res, next) => {
 
 //gethost
 exports.getAllHost = async (req, res, next) => {
-    host = await hostService.gerHostAll()
-    res.json({ host })
+    const userId = req.user.id
+    console.log(userId)
+    host = await hostService.gerHostAll(userId)
+    res.json(host)
 }
 
 exports.getHostUser = async (req, res, next) => {

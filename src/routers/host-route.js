@@ -4,8 +4,8 @@ const authenticate = require("../middlewares/authenticate")
 const upload = require("../middlewares/upload")
 const router = express.Router()
 
+router.get("/",authenticate,hostController.getAllHost)
 router.post("/create",authenticate,upload.single("avatar"),hostController.createHost) //รออัพเดตตารางเพื่องเก็บรูปแบบarray
-// router.get("/",hostController.getAllHost)
 router.get("/host/:userId",authenticate,hostController.getHostUser)
 router.put("/host/update",authenticate,upload.single("avatar"),hostController.putHost)
 router.delete("/:hostId/delete",authenticate,hostController.delHost)

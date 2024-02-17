@@ -69,6 +69,9 @@ exports.getRoomByHost = (id)=>{
     return prisma.room.findMany({
         where:{
             id:id,
+        },
+        include: {
+            rooms_img: true
         }
     })
 }
@@ -79,4 +82,14 @@ exports.updateRoom = (where, data) => {
         data,
     });
 }
-    
+
+exports.getRoomByHostForUser = (hostId)=>{
+    return prisma.room.findMany({
+        where: {
+            hostId: hostId
+        },
+        include: {
+            rooms_img: true
+        }
+    })
+}
