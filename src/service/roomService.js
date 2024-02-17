@@ -72,3 +72,11 @@ exports.getRoomByHost = (id)=>{
         }
     })
 }
+
+exports.updateRoom = (where, data) => {
+    return prisma.room.update({
+        where,
+        data,
+    });
+}
+    

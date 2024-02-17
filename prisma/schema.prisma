@@ -47,7 +47,7 @@ model Pet {
   gender             String?
   healthStatus       String?
   urlImgPet          String?
-  user               User                @relation(fields: [userId], references: [id])
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId             String
   pets_count_booking pet_count_booking[]
 }
@@ -59,7 +59,7 @@ model Host {
   description  String?
   publish      Boolean   @default(false)
   propertyType String
-  user         User      @relation(fields: [userId], references: [id])
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId       String
   rooms        Room[]
   Bookings     Booking[]
@@ -73,7 +73,7 @@ model Room {
   maximumAnimal   Int
   pricePerNight   Float
   typeRoom        String
-  host            Host             @relation(fields: [hostId], references: [id])
+  host            Host             @relation(fields: [hostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   hostId          Int
   rooms_img       Room_img[]
   rooms_amenities Room_amenities[]
@@ -83,15 +83,15 @@ model Room {
 model Room_img {
   id     Int     @id @default(autoincrement())
   urlImg String?
-  room   Room    @relation(fields: [roomId], references: [id])
+  room   Room    @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomId Int
 }
 
 model Room_amenities {
   id          Int       @id @default(autoincrement())
-  amenities   Amenities @relation(fields: [amenitiesId], references: [id])
+  amenities   Amenities @relation(fields: [amenitiesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   amenitiesId Int
-  room        Room      @relation(fields: [roomId], references: [id])
+  room        Room      @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomId      Int
 }
 
@@ -108,11 +108,11 @@ model Booking {
   checkOutDate       DateTime
   totalPrice         Float
   bookingDatetime    DateTime            @default(now())
-  user               User                @relation(fields: [userId], references: [id])
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId             String
-  host               Host                @relation(fields: [hostId], references: [id])
+  host               Host                @relation(fields: [hostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   hostId             Int
-  room               Room                @relation(fields: [roomId], references: [id])
+  room               Room                @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomId             Int
   pets_count_booking pet_count_booking[]
   booking_history    Bookings_history[]
@@ -121,9 +121,9 @@ model Booking {
 
 model pet_count_booking {
   pet_bookings_id Int     @id @default(autoincrement())
-  pet             Pet     @relation(fields: [petId], references: [id])
+  pet             Pet     @relation(fields: [petId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   petId           Int
-  booking         Booking @relation(fields: [bookingId], references: [id])
+  booking         Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bookingId       Int
 }
 
@@ -134,7 +134,7 @@ model Bookings_history {
   totalPrice       Float
   bookingDatetime  DateTime         @default(now())
   checkOutDatetime DateTime?
-  booking          Booking          @relation(fields: [bookingId], references: [id])
+  booking          Booking          @relation(fields: [bookingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bookingId        Int
   status_booking   Status_booking[]
 }
@@ -142,9 +142,9 @@ model Bookings_history {
 model Status_booking {
   status_id          Int              @id @default(autoincrement())
   bookingStatus      StatusBooking    @default(PENDING)
-  booking            Booking          @relation(fields: [bookingId], references: [id])
+  booking            Booking          @relation(fields: [bookingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bookingId          Int
-  bookings_history   Bookings_history @relation(fields: [bookings_historyId], references: [id])
+  bookings_history   Bookings_history @relation(fields: [bookings_historyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bookings_historyId Int
 }
 
@@ -153,8 +153,8 @@ model Review {
   rating         Float
   comment        String?
   reviewDatetime DateTime @default(now())
-  user           User     @relation(fields: [userId], references: [id])
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId         String
-  host           Host     @relation(fields: [hostId], references: [id])
+  host           Host     @relation(fields: [hostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   hostId         Int
 }
