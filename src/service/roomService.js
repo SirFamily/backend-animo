@@ -47,12 +47,17 @@ exports.addRoom = (data)=>{
     })
 }
 
-exports.uploadImgRoom = (data) => {
+exports.uploadImgRoom = ({images, roomId} ) => {
+
+    const imageData = images.map((image) => {
+        return {
+            urlImg: image.urlImg,
+            roomId: roomId,
+        };
+    });
+
     return prisma.room_img.createMany({
-        data: data.images.map((image) => ({
-            image: image.image,
-            roomId: image.roomId,
-        })),
+        data: imageData,
     });
 };
 

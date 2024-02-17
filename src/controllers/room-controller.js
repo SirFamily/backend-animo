@@ -11,9 +11,12 @@ exports.addRoom = async (req, res, next) => {
         const { roomName,
             description,
             maximumAnimal,
+            pricePerNight,
             state,
+            typeRoom,
         } = req.body
         const maximumAnimalNum = Number(maximumAnimal)
+        const numPricePerNight = Number(pricePerNight)
 
         if (!roomName || !description
             || typeof maximumAnimalNum !== 'number'
@@ -34,23 +37,28 @@ exports.addRoom = async (req, res, next) => {
             roomName,
             description,
             maximumAnimal: maximumAnimalNum,
-            state,
+            pricePerNight: numPricePerNight,
+            typeRoom,
             hostId: Number(hostId)
         })
 
         const roomId = Number(roomExits.id)
+        
+        if (typeof roomId !== 'number') {
+            throw createError(400, 'Invalid roomId');
+        }
 
         const images = imgUrlArray.map((imgUrl) => {
             return {
-                image: imgUrl,
-                roomId,
+                urlImg: imgUrl,
             }
         })
-        await roomService.uploadImgRoom({ images })
+        await roomService.uploadImgRoom({ images, roomId });
 
 
 
-        res.json({ roomExits })
+
+        res.json({ images })
     } catch (err) {
         next(err)
     }
@@ -77,7 +85,7 @@ exports.getRoomByHostForUser = async (req, res, next) => {
         const room = await roomService.getRoomByHost(Number(id))
         res.json({ user: userId, room: room })
 
-    } catch (err) {
+    } catch (err) { 
         next(err)
     }
 }
