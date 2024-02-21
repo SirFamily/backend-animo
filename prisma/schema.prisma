@@ -120,11 +120,11 @@ model Booking {
 }
 
 model pet_count_booking {
-  pet_bookings_id Int     @id @default(autoincrement())
-  pet             Pet     @relation(fields: [petId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  petId           Int
-  booking         Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  bookingId       Int
+  id        Int     @id @default(autoincrement())
+  pet       Pet     @relation(fields: [petId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  petId     Int
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  bookingId Int
 }
 
 model Bookings_history {
@@ -140,7 +140,7 @@ model Bookings_history {
 }
 
 model Status_booking {
-  status_id          Int              @id @default(autoincrement())
+  id                 Int              @id @default(autoincrement())
   bookingStatus      StatusBooking    @default(PENDING)
   booking            Booking          @relation(fields: [bookingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bookingId          Int
