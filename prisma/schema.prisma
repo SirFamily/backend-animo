@@ -14,6 +14,7 @@ enum StatusBooking {
   CONFIRMED
   PENDING
   CANCELLED
+  CONPLETED
 }
 
 model User {

@@ -1,5 +1,4 @@
 const createError = require("../utils/createError");
-const prisma = require("../config/pirsma");
 const bookingService = require("../service/bookingService")
 exports.createBooking =  async (req, res, next) => {
   try {
@@ -52,17 +51,13 @@ exports.getBookings = async (req, res, next) => {
     const userId = req.user.id;
 
     // Fetch all bookings for the given user
-    const userBookings = await prisma.booking.findMany({
-      where: {
+    const userBookings = await bookingService.getBookings({
         userId: userId,
-      },
-      include: {
         host: true,
         room: true,
         pets_count_booking: true,
         booking_history: true,
         status_booking: true,
-      },
     });
 
     // Handle the case when there are no bookings for the user

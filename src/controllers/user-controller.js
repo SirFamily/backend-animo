@@ -18,8 +18,9 @@ exports.userPut = async (req, res, next) => {
     let url = req.user.img_profile;
         if (req.file) {
             url = await cloudUpload(req.file.path);
+        }else{
+            return
         }
-
     const {
         firstName,
         lastName,
