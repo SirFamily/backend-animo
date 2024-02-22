@@ -1,6 +1,6 @@
 const prisma = require("../config/pirsma");
 
-exports.createBooking = ({ checkInDate, checkOutDate, totalPrice, bookingDatetime,user,host,room }) => {
+exports.createBooking = ({ checkInDate, checkOutDate, totalPrice, bookingDatetime, user, host, room }) => {
     return prisma.booking.create({
         data: {
             checkInDate,
@@ -14,7 +14,7 @@ exports.createBooking = ({ checkInDate, checkOutDate, totalPrice, bookingDatetim
     });
 };
 
-exports.createBookingHistory = ({checkInDate,checkOutDate,totalPrice,bookingDatetime,booking}) => {
+exports.createBookingHistory = ({ checkInDate, checkOutDate, totalPrice, bookingDatetime, booking }) => {
     return prisma.bookings_history.create({
         data: {
             checkInDate,
@@ -28,16 +28,16 @@ exports.createBookingHistory = ({checkInDate,checkOutDate,totalPrice,bookingDate
 
 exports.statusBooking = ({ bookingStatus, booking, bookings_history }) => {
     return prisma.status_booking.create({
-      data: {
-        bookingStatus,
-        booking,
-        bookings_history,
-      },
+        data: {
+            bookingStatus,
+            booking,
+            bookings_history,
+        },
     });
-  };
-  
+};
 
-exports.petCountBooking = ({petId,bookingId}) => {
+
+exports.petCountBooking = ({ petId, bookingId }) => {
     return prisma.pet_count_booking.create({
         data: {
             petId,
@@ -47,17 +47,17 @@ exports.petCountBooking = ({petId,bookingId}) => {
 };
 
 
-exports.getBookings =({userId,host,room,pets_count_booking,booking_history,status_booking})=>{
+exports.getBookings = ({ userId, host, room, pets_count_booking, booking_history, status_booking }) => {
     return prisma.booking.findMany({
         where: {
             userId,
-          },
-          include: {
+        },
+        include: {
             host,
             room,
             pets_count_booking,
             booking_history,
             status_booking,
-          },
+        },
     })
 }

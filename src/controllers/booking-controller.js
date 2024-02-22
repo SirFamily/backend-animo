@@ -1,40 +1,40 @@
 const createError = require("../utils/createError");
 const bookingService = require("../service/bookingService")
-exports.createBooking =  async (req, res, next) => {
+exports.createBooking = async (req, res, next) => {
   try {
     const { checkInDate, checkOutDate, totalPrice, selectedTags } = req.body;
     const { hostId, roomId } = req.params;
     const userId = req.user.id;
 
     const booking = await bookingService.createBooking({
-        checkInDate: new Date(checkInDate),
-        checkOutDate: new Date(checkOutDate),
-        totalPrice: totalPrice,
-        bookingDatetime: new Date(),
-        user: { connect: { id: userId } },
-        host: { connect: { id: parseInt(hostId) } },
-        room: { connect: { id: parseInt(roomId) } },
+      checkInDate: new Date(checkInDate),
+      checkOutDate: new Date(checkOutDate),
+      totalPrice: totalPrice,
+      bookingDatetime: new Date(),
+      user: { connect: { id: userId } },
+      host: { connect: { id: parseInt(hostId) } },
+      room: { connect: { id: parseInt(roomId) } },
 
     });
 
     const bookingHistory = await bookingService.createBookingHistory({
-        checkInDate: new Date(checkInDate),
-        checkOutDate: new Date(checkOutDate),
-        totalPrice: totalPrice,
-        bookingDatetime: new Date(),
-        booking: { connect: { id: booking.id } },
+      checkInDate: new Date(checkInDate),
+      checkOutDate: new Date(checkOutDate),
+      totalPrice: totalPrice,
+      bookingDatetime: new Date(),
+      booking: { connect: { id: booking.id } },
     });
 
     const status = await bookingService.statusBooking({
-        bookingStatus: 'PENDING',
-        booking: { connect: { id: booking.id } },
-        bookings_history: { connect: { id: bookingHistory.id } },
+      bookingStatus: 'PENDING',
+      booking: { connect: { id: booking.id } },
+      bookings_history: { connect: { id: bookingHistory.id } },
     });
 
     for (const tag of selectedTags) {
       await bookingService.petCountBooking({
-          petId: parseInt(tag.value),
-          bookingId: booking.id,
+        petId: parseInt(tag.value),
+        bookingId: booking.id,
       });
     }
 
@@ -52,12 +52,12 @@ exports.getBookings = async (req, res, next) => {
 
     // Fetch all bookings for the given user
     const userBookings = await bookingService.getBookings({
-        userId: userId,
-        host: true,
-        room: true,
-        pets_count_booking: true,
-        booking_history: true,
-        status_booking: true,
+      userId: userId,
+      host: true,
+      room: true,
+      pets_count_booking: true,
+      booking_history: true,
+      status_booking: true,
     });
 
     // Handle the case when there are no bookings for the user
