@@ -79,3 +79,44 @@ exports.getRequests =  async (req, res, next) => {
     next(err)
   }
 }
+
+exports.upStateConfirm = async (req,res,next)=>{
+  try{
+
+    const { id } = req.params;
+    const text = "CONFIRMED"
+    await  bookingService.updateStatus({text, id});
+
+res.json("สำเร็จ")
+
+  }catch(err){
+    next(err)
+  }
+}
+
+
+exports.upStateCancel = async (req,res,next)=>{
+  try{
+    const { id } = req.params;
+    const text = "CANCELLED"
+    await  bookingService.updateStatus({text, id});
+
+    res.json("สำเร็จ")
+  }catch(err){
+    next(err)
+  }
+}
+
+exports.upStateComplete = async (req,res,next)=>{
+  try{
+    const { id,idBH} = req.params;
+    const text = "CONPLETED"
+    await  bookingService.updateStatus({text, id});
+    const Timestamp = new Date();
+    await bookingService.checkOut({idBH,Timestamp})
+
+    res.json("สำเร็จ")
+  }catch(err){
+    next(err)
+  }
+}

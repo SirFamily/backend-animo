@@ -70,17 +70,13 @@ exports.getHostByUserId = (userId) => {
       include: {
         Bookings: {
           include: {
-            pets_count_booking: true,
-            booking_history: {
-                where: {
-                    checkOutDatetime: null,
-                },
+            pets_count_booking: {
+                include: {
+                    pet: true
+                }
             },
-            status_booking: {
-                where: {
-                    bookingStatus: "PENDING",
-                },
-            },
+            booking_history: true,
+            status_booking: true,
             room: true,
             user: true,
           },
@@ -88,4 +84,28 @@ exports.getHostByUserId = (userId) => {
       },
     });
   };
+
+
+  exports.updateStatus =({id,text}) =>{
+    return prisma.status_booking.update({
+        where:{
+            id:parseInt(id),
+        },
+        data:{
+            bookingStatus: text,
+        }
+
+    })
+  }
+
+  exports.checkOut =({idBH,Timestamp})=>{
+    return prisma.bookings_history.update({
+        where:{
+            id: parseInt(idBH),
+        },
+        data:{
+            checkOutDatetime: new Date(),
+        }
+    })
+  }
 
