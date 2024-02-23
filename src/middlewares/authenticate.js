@@ -14,9 +14,9 @@ const authenticate = async (req, res, next) => {
         if (arrayToken[0] !== "Bearer" || !token) {
             return createError(400, "not token")
         }
-        console.log(arrayToken)
+        // console.log(arrayToken)
         const payload = jwt.verify(token, process.env.SECRET_KEY)
-        console.log(payload)
+
         if (typeof payload !== "object" || !payload?.id || typeof payload.id !== "string") {
             return createError(400, "payload is invalid")
         }
@@ -25,7 +25,7 @@ const authenticate = async (req, res, next) => {
                 id: payload.id
             }
         })
-        console.log(payload)
+        // console.log(payload)
         if (!user) {
             return createError(400, "user not found")
         }

@@ -9,6 +9,13 @@ exports.getUser = async (req, res, next) => {
     res.json(req.user)
 }
 
+exports.getUserById = async (req, res, next) => {
+    const {userId} = req.params
+
+    const data = await userService.getUserByID(userId)
+    res.json(data)
+}
+
 exports.userPut = async (req, res, next) => {
     try{
 

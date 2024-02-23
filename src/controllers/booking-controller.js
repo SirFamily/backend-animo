@@ -50,7 +50,6 @@ exports.getBookings = async (req, res, next) => {
   try {
     const userId = req.user.id;
 
-    // Fetch all bookings for the given user
     const userBookings = await bookingService.getBookings({
       userId: userId,
       host: true,
@@ -60,14 +59,23 @@ exports.getBookings = async (req, res, next) => {
       status_booking: true,
     });
 
-    // Handle the case when there are no bookings for the user
     if (!userBookings || userBookings.length === 0) {
       return res.json([]);
     }
 
-    // Return the bookings
     res.json(userBookings);
   } catch (err) {
     next(err);
   }
 };
+
+exports.getRequests =  async (req, res, next) => {
+  try{
+    userId = req.user.id;
+    const host = await bookingService.getHostByUserId(userId);
+
+  res.json(host);
+  }catch(err){
+    next(err)
+  }
+}

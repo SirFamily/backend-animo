@@ -61,3 +61,31 @@ exports.getBookings = ({ userId, host, room, pets_count_booking, booking_history
         },
     })
 }
+
+exports.getHostByUserId = (userId) => {
+    return prisma.host.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        Bookings: {
+          include: {
+            pets_count_booking: true,
+            booking_history: {
+                where: {
+                    checkOutDatetime: null,
+                },
+            },
+            status_booking: {
+                where: {
+                    bookingStatus: "PENDING",
+                },
+            },
+            room: true,
+            user: true,
+          },
+        },
+      },
+    });
+  };
+
