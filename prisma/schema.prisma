@@ -59,17 +59,25 @@ model Pet {
 }
 
 model Host {
-  id           Int       @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   hostName     String
   location     String
   description  String?
-  publish      Boolean   @default(false)
+  publish      Boolean    @default(false)
   propertyType String
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId       String
   rooms        Room[]
   Bookings     Booking[]
   Review       Review[]
+  Host_img     Host_img[]
+}
+
+model Host_img {
+  id     Int    @id @default(autoincrement())
+  host   Host   @relation(fields: [hostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  hostId Int
+  imgUrl String?
 }
 
 model Room {

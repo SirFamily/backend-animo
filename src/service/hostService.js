@@ -40,5 +40,16 @@ exports.delHost = (id) => {
     });
 }
 
+exports.uploadImgHost = ({images, hostId} ) => {
 
+    const imageData = images.map((image) => {
+        return {
+            imgUrl: image.urlImg,
+            hostId,
+        };
+    });
+    return prisma.host_img.createMany({
+        data: imageData,
+    });
+}
 

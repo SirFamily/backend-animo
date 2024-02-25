@@ -1,5 +1,6 @@
 const createError = require("../utils/createError")
 const hostService = require("../service/hostService")
+const cloudUpload = require("../utils/cloudUpload")
 
 
 //สร้างhostแชร์บ้านและ
@@ -11,8 +12,14 @@ exports.createHost = async (req, res, next) => {
             throw createError(400, 'Missing required fields')
         }
 
+        const imagexPromiseArray = req.files.map((file) => {
+            return cloudUpload(file.path)
+        })
+
+        const imgUrlArray = await Promise.all(imagexPromiseArray)
+
         userId = req.user.id
-        await hostService.addHost(
+        const hostdata = await hostService.addHost(
             {
                 hostName,
                 location,
@@ -21,6 +28,14 @@ exports.createHost = async (req, res, next) => {
                 userId
             }
         )
+
+        const images = imgUrlArray.map((imgUrl) => {
+            return {
+                urlImg: imgUrl,
+            }
+        })
+        hostId = hostdata.id
+        const data = await hostService.uploadImgHost({ images, hostId });
 
         res.status(200).json(req.body)
     } catch (err) {
