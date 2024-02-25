@@ -6,7 +6,9 @@ exports.gerHostAll = (userId) => {
         where: {
             userId: { not: userId } 
         },
-        
+        include: {
+            Host_img: true, 
+        },
     });
 }
 exports.addHost = (hostData) => {
@@ -19,9 +21,13 @@ exports.getHostByIdUser = (userId) => {
     return prisma.host.findFirst({
         where: {
             userId: userId,
-        }
-    })
+        },
+        include: {
+            Host_img: true, 
+        },
+    });
 }
+
 
 exports.updateHost = (id, data) => {
     return prisma.host.update({
