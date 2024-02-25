@@ -9,6 +9,7 @@ router.post("/create",authenticate,upload.array('photos', 5),hostController.crea
 router.get("/host/:userId",authenticate,hostController.getHostUser)
 router.put("/host/update",authenticate,upload.array('photos', 5),hostController.putHost)
 router.delete("/:hostId/delete",authenticate,hostController.delHost)
+router.put("/publish/:bool",authenticate,hostController.setPublish)
 
 module.exports = router;
 

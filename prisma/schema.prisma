@@ -14,7 +14,7 @@ enum StatusBooking {
   CONFIRMED
   PENDING
   CANCELLED
-  CONPLETED
+  COMPLETED
 }
 
 enum PaymentStatus {

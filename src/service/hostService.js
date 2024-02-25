@@ -4,7 +4,8 @@ const prisma = require("../config/pirsma");
 exports.gerHostAll = (userId) => {
     return prisma.host.findMany({
         where: {
-            userId: { not: userId } 
+            userId: { not: userId } ,
+            publish: true
         },
         include: {
             Host_img: true, 

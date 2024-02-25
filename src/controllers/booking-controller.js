@@ -110,7 +110,7 @@ exports.upStateCancel = async (req,res,next)=>{
 exports.upStateComplete = async (req,res,next)=>{
   try{
     const { id,idBH} = req.params;
-    const text = "CONPLETED"
+    const text = "COMPLETED"
     await  bookingService.updateStatus({text, id});
     const Timestamp = new Date();
     await bookingService.checkOut({idBH,Timestamp})

@@ -77,17 +77,22 @@ exports.getHostUser = async (req, res, next) => {
 //แก้ไขข้อมูล
 exports.putHost = async (req, res, next) => {
     try {
-        const { hostName, description, propertyType } = req.body;
+        const { hostName, description, propertyType, publish } = req.body;
         const userId = req.user.id;
         const userHost = await hostService.getHostByIdUser(userId);
-
+console.log(publish)
+        // Convert 'publish' to a boolean
+        const isPublished = publish === 'true';
+        console.log(isPublished)
         await hostService.updateHost(userHost.id, {
             hostName,
             description,
             propertyType,
+            publish: isPublished,
         });
 
-        res.json({ message: "แก้ไขสำเร็จ" });
+        res.json(req.body);
+
     } catch (err) {
         next(err)
     }
@@ -113,4 +118,13 @@ exports.delHost = async (req, res, next) => {
         next(err)
     }
 
+}
+
+exports.setPublish = async (req, res, next) => {
+    try {
+        const { bool } = req.params
+        res.json({ bool })
+    } catch (err) {
+        next(err)
+    }
 }
