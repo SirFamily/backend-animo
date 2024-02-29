@@ -43,7 +43,7 @@ exports.delHost = (id) => {
     return prisma.host.delete({
         where: {
             id: id,
-        }
+        }       
     });
 }
 
