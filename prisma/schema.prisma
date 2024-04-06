@@ -62,7 +62,7 @@ model Host {
   id           Int        @id @default(autoincrement())
   hostName     String
   location     String
-  description  String?
+  description  String?    @db.VarChar(255) // ปรับขนาดตามที่ต้องการ
   publish      Boolean    @default(false)
   propertyType String
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -72,6 +72,7 @@ model Host {
   Review       Review[]
   Host_img     Host_img[]
 }
+
 
 model Host_img {
   id     Int    @id @default(autoincrement())
