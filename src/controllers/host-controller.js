@@ -6,7 +6,7 @@ const cloudUpload = require("../utils/cloudUpload")
 //สร้างhostแชร์บ้านและ
 exports.createHost = async (req, res, next) => {
     try {
-        const { hostName, location, description, propertyType } = req.body
+        const { hostName, location, description, propertyType,lat,lng } = req.body
         console.log(hostName)
         if (!hostName || !location || !propertyType) {
             throw createError(400, 'Missing required fields')
@@ -25,7 +25,9 @@ exports.createHost = async (req, res, next) => {
                 location,
                 description,
                 propertyType,
-                userId
+                userId,
+                Latitude : parseFloat(lat),
+                Longitude:parseFloat(lng),
             }
         )
 

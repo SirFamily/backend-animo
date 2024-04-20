@@ -62,7 +62,9 @@ model Host {
   id           Int        @id @default(autoincrement())
   hostName     String
   location     String
-  description  String?    @db.VarChar(255) // ปรับขนาดตามที่ต้องการ
+  Latitude     Float?
+  Longitude    Float?
+  description  String?    @db.VarChar(255) 
   publish      Boolean    @default(false)
   propertyType String
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
